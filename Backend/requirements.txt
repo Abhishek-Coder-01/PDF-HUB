@@ -1,0 +1,13 @@
+Flask==2.3.3
+Flask-CORS==4.0.0
+pdf2image==1.17.0
+python-poppler-cf>=1.0.0
+pytesseract==0.3.10
+python-docx==0.8.11
+Werkzeug==2.3.7
+PyPDF2==4.0.0
+docx2pdf==0.1.8
+PyMuPDF==1.23.8
+pypdf==3.17.1
+gunicorn==20.1.0
+
