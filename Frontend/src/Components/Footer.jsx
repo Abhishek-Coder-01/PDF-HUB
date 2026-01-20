@@ -136,7 +136,13 @@ const Footer = () => {
                             Resources
                         </h3>
                         <ul className="space-y-3">
-                            {['Documentation', 'API Access', 'Plant Database', 'Research Papers', 'Case Studies'].map((item, index) => (
+                            {[
+  'Image to PDF',
+  'Merge PDF',
+  'Compress PDF',
+  'Protect PDF',
+  'Unlock PDF'
+]map((item, index) => (
                                 <li key={index}>
                                     <a
                                         href="#"
@@ -203,7 +209,7 @@ const Footer = () => {
                                 PDF HUB uses advanced machine learning to identify plants with 95% accuracy
                             </p>
                             <p className="text-gray-500 text-sm">
-                                Powered by Plant.id API | © {new Date().getFullYear()}   PDF HUB. All rights reserved.
+                                Powered by PDF HUB | © {new Date().getFullYear()}   PDF HUB. All rights reserved.
                             </p>
                         </div>
 
