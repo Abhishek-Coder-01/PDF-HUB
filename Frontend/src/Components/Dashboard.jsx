@@ -8,7 +8,12 @@ import PizZip from 'pizzip';
 import mammoth from 'mammoth';
 import html2canvas from 'html2canvas';
 import { VscLoading } from "react-icons/vsc";
+import { useEffect } from "react";
+import BACKEND_URL from "../api";
+
 // ========== UTILITY FUNCTIONS ==========
+
+
 
 // Multiple images ko PDF mein convert karna
 const convertMultipleImagesToPDF = async (files) => {
@@ -47,6 +52,7 @@ const convertMultipleImagesToPDF = async (files) => {
 
     return pdf.output('blob');
 };
+
 
 // Image load helper
 const loadImage = (file) => {
@@ -103,7 +109,7 @@ const wordToPDF = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch("http://127.0.0.1:5000/convert", {
+    const response = await fetch(`${BACKEND_URL}convert`, {
         method: "POST",
         body: formData
     });
@@ -121,7 +127,7 @@ const pdfToWord = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch("http://127.0.0.1:5000/pdf-to-word", {
+    const response = await fetch(`${BACKEND_URL}pdf-to-word`, {
         method: "POST",
         body: formData
     });
@@ -142,7 +148,7 @@ const compressPDF = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch("http://127.0.0.1:5000/compress", {
+    const response = await fetch(`${BACKEND_URL}compress`, {
         method: "POST",
         body: formData
     });
@@ -164,7 +170,7 @@ const zipfile = async (file) => {
     formData.append("file", file);
 
 
-    const response = await fetch("http://127.0.0.1:5000/zip", {
+    const response = await fetch(`${BACKEND_URL}zip`, {
         method: "POST",
         body: formData
     });
@@ -186,7 +192,7 @@ const removePDFPages = async (file) => {
     formData.append("file", file);
 
 
-    const response = await fetch("http://127.0.0.1:5000/remove", {
+    const response = await fetch(`${BACKEND_URL}remove`, {
         method: "POST",
         body: formData
     });
@@ -206,7 +212,7 @@ const pdfTextReplace = async (file, oldText, newText) => {
     formData.append("old_text", oldText);
     formData.append("new_text", newText);
 
-    const response = await fetch("http://127.0.0.1:5000/pdf-text-replace", {
+    const response = await fetch(`${BACKEND_URL}pdf-text-replace`, {
         method: "POST",
         body: formData
     });
@@ -230,7 +236,7 @@ const pdfToImage = async (file, pages, downloadType) => {
     if (pages) formData.append("pages", pages);
     formData.append("download", downloadType);
 
-    const response = await fetch("http://127.0.0.1:5000/pdf-to-image", {
+    const response = await fetch(`${BACKEND_URL}pdf-to-image`, {
         method: "POST",
         body: formData
     });
@@ -259,7 +265,7 @@ const lockPDF = async (file, password) => {
     formData.append("file", file);
     formData.append("password", password);
 
-    const response = await fetch("http://127.0.0.1:5000/lock", {
+    const response = await fetch(`${BACKEND_URL}lock`, {
         method: "POST",
         body: formData
     });
@@ -279,7 +285,7 @@ const unlockPDF = async (file, password) => {
     formData.append("file", file);
     formData.append("password", password);
 
-    const response = await fetch("http://127.0.0.1:5000/unlock", {
+    const response = await fetch(`${BACKEND_URL}unlock`, {
         method: "POST",
         body: formData
     });
@@ -1543,56 +1549,61 @@ function GenericToolModal({ onClose, tool }) {
             bg: "from-blue-500 to-blue-600",
             hover: "hover:shadow-lg",
             border: "border-blue-300",
+            text: "text-blue-500",
         },
         teal: {
             bg: "from-teal-500 to-teal-600",
             hover: "hover:shadow-lg",
             border: "border-teal-300",
+            text: "text-teal-500",
         },
         pink: {
             bg: "from-pink-500 to-pink-600",
             hover: "hover:shadow-lg",
             border: "border-pink-300",
+            text: "text-pink-500",
         },
         red: {
             bg: "from-red-500 to-red-600",
             hover: "hover:shadow-lg",
             border: "border-red-300",
+            text: "text-red-500",
         },
         yellow: {
             bg: "from-yellow-400 to-yellow-500",
             hover: "hover:shadow-lg",
             border: "border-yellow-300",
+            text: "text-yellow-500",
         },
         green: {
             bg: "from-green-500 to-green-600",
             hover: "hover:shadow-lg",
             border: "border-green-300",
+            text: "text-green-500",
         },
         purple: {
             bg: "from-purple-500 to-purple-600",
             hover: "hover:shadow-lg",
             border: "border-purple-300",
+            text: "text-purple-500",
         },
         indigo: {
             bg: "from-indigo-500 to-indigo-600",
             hover: "hover:shadow-lg",
             border: "border-indigo-300",
+            text: "text-indigo-500",
         },
         gray: {
             bg: "from-gray-500 to-gray-600",
             hover: "hover:shadow-lg",
             border: "border-gray-300",
-        },
-        purple: {
-            bg: "from-purple-500 to-purple-600",
-            hover: "hover:shadow-lg",
-            border: "border-purple-300",
+            text: "text-gray-500",
         },
         cyan: {
             bg: "from-cyan-500 to-cyan-600",
             hover: "hover:shadow-lg",
             border: "border-cyan-300",
+            text: "text-cyan-500",
         },
     };
 
@@ -1654,6 +1665,7 @@ ${errorMsg}
     const [showPassword, setShowPassword] = useState(false);
 
 
+    
     return (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
             <div className="absolute inset-0" onClick={onClose}></div>
@@ -1687,8 +1699,7 @@ ${errorMsg}
 
                                 <div className="flex justify-center mb-4">
                                     <i
-                                        className={`fas ${config.icon}
-                  text-5xl text-${config.color}-500`}
+                                        className={`fas ${config.icon} text-5xl ${buttonColorMap[config.color].text}`}
                                     ></i>
                                 </div>
 
@@ -1942,7 +1953,7 @@ function PDFToImageModal({ onClose }) {
 
     const downloadSingleImage = async (url, filename) => {
         try {
-            const response = await fetch(`http://127.0.0.1:5000${url}`);
+            const response = await fetch(`${BACKEND_URL}${url.substring(1)}`);
             if (!response.ok) throw new Error('Download failed');
             const blob = await response.blob();
             const link = document.createElement('a');
@@ -2206,6 +2217,19 @@ function PDFToImageModal({ onClose }) {
 
 export default function Dashboard() {
     const [activeModal, setActiveModal] = useState(null);
+      useEffect(() => {
+    const connectBackend = async () => {
+      try {
+        const res = await fetch(`${BACKEND_URL}/`);
+        const text = await res.text();
+        console.log("Backend response:", text);
+      } catch (error) {
+        console.error("Backend not connected", error);
+      }
+    };
+
+    connectBackend();
+  }, []);
 
     const tools = [
         { id: 'image-to-pdf', name: 'Image to PDF', icon: 'fa-image', color: 'green', badge: 'Popular', modal: 'image-to-pdf', time: 2 },
